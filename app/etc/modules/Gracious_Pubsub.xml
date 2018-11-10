@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <config>
-  <modules>
-    <Gracious_Pubsub>
-      <active>true</active>
-      <codePool>local</codePool>
-      <version>0.1.0</version>
-    </Gracious_Pubsub>
-  </modules>
+    <modules>
+        <Gracious_Pubsub>
+            <active>true</active>
+            <codePool>local</codePool>
+            <version>0.1.0</version>
+        </Gracious_Pubsub>
+    </modules>
 </config>

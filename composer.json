@@ -1,13 +1,12 @@
 {
-    "name": "gracious/magento1-pubsub",
-    "description": "Pushes customers, orders, newsletter subscribers to google pub/sub",
-    "type": "magento-module",
-    "authors": [
-        {
-            "name": "Pepijn Blom",
-            "email": "p.blom@gracious.nl"
-        }
-    ],
-    "require": {}
-    
+  "name": "gracious/magento1-pubsub",
+  "description": "Pushes customers, orders, newsletter subscribers to google pub/sub",
+  "type": "magento-module",
+  "authors": [
+    {
+      "name": "Pepijn Blom",
+      "email": "p.blom@gracious.nl"
+    }
+  ],
+  "require": {}
 }

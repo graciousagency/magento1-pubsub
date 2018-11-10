@@ -1,15 +1,15 @@
 <?xml version="1.0"?>
 <config>
-  <modules>
-    <Gracious_Pubsub>
-      <version>0.1.0</version>
-    </Gracious_Pubsub>
-  </modules>
-  <global>
-    <helpers>
-      <pubsub>
-        <class>Gracious_Pubsub_Helper</class>
-      </pubsub>
-    </helpers>
-  </global>
+    <modules>
+        <Gracious_Pubsub>
+            <version>0.1.0</version>
+        </Gracious_Pubsub>
+    </modules>
+    <global>
+        <helpers>
+            <pubsub>
+                <class>Gracious_Pubsub_Helper</class>
+            </pubsub>
+        </helpers>
+    </global>
 </config> 
