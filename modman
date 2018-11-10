@@ -1,4 +1,4 @@
-code                    app/code/local/Gracious/Pubsub/
+app/code/local/Gracious/Pubsub/ app/code/local/Gracious/Pubsub/
 frontend/layout/*       app/design/frontend/base/default/layout/
-frontend/template/*     app/design/frontend/base/default/template/gracious/pubsub/
-Gracious_Pubsub.xml     app/etc/modules/Gracious_Pubsub.xml
+frontend/template/*     app/design/frontend/base/default/template/gracious/pubsub
+app/etc/modules/Gracious_Pubsub.xml     app/etc/modules/Gracious_Pubsub.xml
