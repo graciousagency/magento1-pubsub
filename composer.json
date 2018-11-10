@@ -8,5 +8,7 @@
       "email": "p.blom@gracious.nl"
     }
   ],
-  "require": {}
+  "require": {
+    "google/cloud-pubsub": "^1.6"
+  }
 }
