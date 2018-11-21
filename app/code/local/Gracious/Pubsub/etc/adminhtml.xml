@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+
+<config>
+    <menu>
+        <catalog>
+            <children>
+                <pubsub translate="title" module="pubsub">
+                    <sort_order>10</sort_order>
+                    <title>Pubsub</title>
+                    <action>adminhtml/pubsub/</action>
+                </pubsub>
+            </children>
+        </catalog>
+    </menu>
+    <acl>
+        <resources>
+            <admin>
+                <children>
+                    <system>
+                        <children>
+                            <config>
+                                <children>
+                                    <pubsub translate="title" module="pubsub">
+                                        <title>Pubsub Section</title>
+                                        <sort_order>0</sort_order>
+                                    </pubsub>
+                                </children>
+                            </config>
+                        </children>
+                    </system>
+                    <catalog>
+                        <children>
+                            <pubsub>
+                                <title>Manage Pubsub</title>
+                                <sort_order>0</sort_order>
+                            </pubsub>
+                        </children>
+                    </catalog>
+                </children>
+            </admin>
+        </resources>
+    </acl>
+</config>

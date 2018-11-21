@@ -15,11 +15,16 @@
             <sales_order_place_after>
                 <observers>
                     <gracious_pubsub_observers>
-                        <class>Gracious_Pubsub_Observer</class>
+                        <class>Gracious_Pubsub_Model_Observer</class>
                         <method>salesOrderPlaceAfter</method>
                     </gracious_pubsub_observers>
                 </observers>
             </sales_order_place_after>
         </events>
     </global>
+    <default>
+        <defaults>
+            <orders_topic>orders</orders_topic>
+        </defaults>
+    </default>
 </config> 
