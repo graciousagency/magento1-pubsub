@@ -1,2 +1,3 @@
 app/code/local/Gracious/Pubsub/         app/code/local/Gracious/Pubsub/
 app/etc/modules/Gracious_Pubsub.xml     app/etc/modules/Gracious_Pubsub.xml
+app/code/local/Gracious/Pubsub/shell/*   shell/
