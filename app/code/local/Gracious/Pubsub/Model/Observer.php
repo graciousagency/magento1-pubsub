@@ -1,8 +1,4 @@
 <?php
-
-use Google\Cloud\PubSub\PubSubClient;
-use Google\Cloud\Storage\StorageClient;
-
 /**
  * Created by PhpStorm.
  * User: pepijnblom
@@ -11,33 +7,25 @@ use Google\Cloud\Storage\StorageClient;
  */
 class Gracious_Pubsub_Model_Observer
 {
-
+    /** @var PubSubClient */
     private $pubSub;
+    /** @var Topic */
     private $topic;
+    /** @var Gracious_Pubsub_Helper_Data  */
+    private $helper;
 
     public function __construct()
     {
-
-        Mage::log(__METHOD__ . ' @ ' . __LINE__, null, 'gracious.log');
-        $ordersTopic = Mage::getStoreConfig('pubsub/pubsub_default/orders_topic');
-        $serviceAccount = Mage::getStoreConfig('pubsub/pubsub_default/service_account');
-        Mage::log(__METHOD__ . ' @ ' . __LINE__ . ' -- $ordersTopic = ' . $ordersTopic, null, 'gracious.log');
-        Mage::log(__METHOD__ . ' @ ' . __LINE__ . ' -- $serviceAccount = ' . $serviceAccount, null, 'gracious.log');
-        $this->pubSub = new PubSubClient(
-            ['keyFile' => json_decode($serviceAccount, true)]
-        );
-        $this->topic = $this->pubSub->topic($ordersTopic);
-
+        $this->helper = Mage::helper('pubsub');
+        $this->topic = $this->helper->getTopic();
     }
 
     public function salesOrderPlaceAfter($observer)
     {
-
-        Mage::log(__METHOD__ . ' @ ' . __LINE__ . ' -- $observer = ' . get_class($observer), null, 'gracious.log');
         $order = $observer->getEvent()->getOrder();
-        $message = ['data' => json_encode($order->getData()), 'attributes' => ['type' => 'order']];
-        $result = $this->topic->publish($message);
-        Mage::log(__METHOD__ . ' @ ' . __LINE__ . ' -- $result = ' . print_r($result,true), null, 'gracious.log');
+        $result = $this->helper->publishOrder($order, $this->topic);
     }
+
+
 
 }
