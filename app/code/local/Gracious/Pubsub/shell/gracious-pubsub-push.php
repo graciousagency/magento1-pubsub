@@ -35,18 +35,19 @@ class Gracious_Pubsub_Shell_Test extends Mage_Shell_Abstract
     public function run()
     {
 
-        $orderId = $this->getArg('order_id');
+        $orderIds = $this->getArg('order_ids');
 
         if($this->getArg('help'))  {
             echo $this->usageHelp();
             return;
         }
 
-        if (!$orderId) {
+        if (!$orderIds) {
             echo $this->usageHelp();
             return;
         }
 
+        
 
     }
 
@@ -56,15 +57,13 @@ class Gracious_Pubsub_Shell_Test extends Mage_Shell_Abstract
     public function usageHelp()
     {
         return <<<USAGE
-Usage:  php -f generate_feeds.php -- [options]
+Usage:  php gracious-pubsub-push.php -- [options]
 
-  --profiles <profiles> Profiles ids or names separated by comma
-  help          This help
-  no argument   Generate all profiles
+  --order_ids <profiles> Order ids separated by comma
 
 USAGE;
     }
 }
 
-$shell = new Mage_Shell_Generate_Profiles();
+$shell = new Gracious_Pubsub_Shell_Test();
 $shell->run();
