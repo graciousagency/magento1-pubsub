@@ -20,6 +20,7 @@ class Gracious_Pubsub_Helper_Data extends Mage_Core_Helper_Abstract
 
     /**
      * @param Mage_Sales_Model_Order $order
+     * @param Topic $topic
      *
      * @return array
      */
@@ -51,8 +52,18 @@ class Gracious_Pubsub_Helper_Data extends Mage_Core_Helper_Abstract
             $orderData['order_items'] = $items;
         }
         $message = ['data' => json_encode($orderData), 'attributes' => ['type' => 'order']];
+        $response = $topic->publish($message);
+        if (isset($response['messageIds'][0])) {
+            return true;
+        }
 
-        return $topic->publish($message);
+        return false;
+    }
+
+    public function setOrderPublished(Mage_Sales_Model_Order $order)
+    {
+        $order->setPubsubExported(true);
+        $order->save();
     }
 
     /**

@@ -21,10 +21,42 @@
                 </observers>
             </sales_order_place_after>
         </events>
+        <resources>
+            <pubsub_setup>
+                <setup>
+                    <module>Gracious_Pubsub</module>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </pubsub_setup>
+            <pubsub_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </pubsub_write>
+            <pubsub_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </pubsub_read>
+        </resources>
     </global>
     <default>
         <defaults>
             <orders_topic>orders</orders_topic>
         </defaults>
     </default>
+    <crontab>
+        <jobs>
+            <pubsub_process_orders>
+                <schedule>
+                    <cron_expr>*/10 * * * *</cron_expr>
+                </schedule>
+                <run>
+                    <model>pubsub/cron::processOrders</model>
+                </run>
+            </pubsub_process_orders>
+        </jobs>
+    </crontab>
 </config> 
