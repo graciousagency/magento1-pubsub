@@ -43,7 +43,6 @@ class Gracious_Pubsub_Model_Cron
                 ],
             ]);
 
-
         return $collection;
     }
 
