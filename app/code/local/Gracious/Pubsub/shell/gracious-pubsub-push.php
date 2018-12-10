@@ -29,8 +29,6 @@ require_once 'abstract.php';
 class Gracious_Pubsub_Shell_Test extends Mage_Shell_Abstract
 {
 
-    private $helper;
-
     /**
      * Run script
      */
@@ -41,8 +39,8 @@ class Gracious_Pubsub_Shell_Test extends Mage_Shell_Abstract
         /** @var \Google\Cloud\PubSub\Topic $topic */
         $topic = $helper->getTopic();
         $orderIds = $this->getArg('order_ids');
-        $from = $this->getArg('from');
-        $to = $this->getArg('to');
+        $from = (string)$this->getArg('from');
+        $to = (string)$this->getArg('to');
         if ($this->getArg('help') || (!$orderIds && !$from)) {
             echo $this->usageHelp();
 
@@ -80,9 +78,9 @@ USAGE;
     /**
      * @param $orderIds
      *
-     * @return mixed
+     * @return Mage_Sales_Model_Resource_Order_Collection
      */
-    private function getOrdersByOrderIds($orderIds)
+    private function getOrdersByOrderIds($orderIds): Mage_Sales_Model_Resource_Order_Collection
     {
         $orderIds = strpos($orderIds, ',') !== false ? explode(',', $orderIds) : [$orderIds];
 
@@ -94,24 +92,26 @@ USAGE;
             ]);
     }
 
-    private function getOrdersByFromTo($from, $to = null)
+    /**
+     * @param string $from
+     * @param string|null $to
+     *
+     * @return Mage_Sales_Model_Resource_Order_Collection
+     */
+    private function getOrdersByFromTo(string $from, string $to): Mage_Sales_Model_Resource_Order_Collection
     {
 
         if (empty($to)) {
             $to = date('Y-m-d');
         }
 
-        Mage::log(__METHOD__ . ' @ ' . __LINE__ . ' -- $to = ' . $to, null, 'gracious.log');
-
-        $collection = Mage::getModel('sales/order')
+        return Mage::getModel('sales/order')
             ->getCollection()
             ->addFieldToFilter('state', ['eq' => 'processing'])
             ->addFieldToFilter('created_at', [
                 'from' => $from,
-                'to' => $to,
+                'to'   => $to,
             ]);
-        Mage::log(__METHOD__ . ' @ ' . __LINE__ . ' -- $collection = ' . $collection->getSelect()->__toString(), null, 'gracious.log');
-        return $collection;
     }
 
 }
