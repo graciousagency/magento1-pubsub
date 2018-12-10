@@ -6,6 +6,35 @@ use Google\Cloud\PubSub\PubSubClient;
 class Gracious_Pubsub_Helper_Data extends Mage_Core_Helper_Abstract
 {
 
+    /**
+     * @return int
+     */
+    public function getStartFromDays()
+    {
+        $days = Mage::getStoreConfig('pubsub/pubsub_default/start_from_days');
+        if (empty($days)) {
+            $days = 0;
+        }
+
+        return (int)$days;
+    }
+
+    /**
+     * @return int
+     */
+    public function getEndFromDays()
+    {
+        $days = Mage::getStoreConfig('pubsub/pubsub_default/end_from_days');
+        if (empty($days)) {
+            $days = 0;
+        }
+
+        return (int)$days;
+    }
+
+    /**
+     * @return Topic
+     */
     public function getTopic()
     {
         $ordersTopic = Mage::getStoreConfig('pubsub/pubsub_default/orders_topic');
@@ -20,39 +49,47 @@ class Gracious_Pubsub_Helper_Data extends Mage_Core_Helper_Abstract
 
     /**
      * @param Mage_Sales_Model_Order $order
+     * @param Topic $topic
      *
-     * @return array
+     * @return bool
      */
-    public function publishOrder(Mage_Sales_Model_Order $order, Topic $topic): array
+    public function publishOrder(Mage_Sales_Model_Order $order, Topic $topic): bool
     {
         Mage::log('Publishing order ' . $order->getId(), null, 'pubsub.log');
-        $items = [];
-        /** @var Mage_Sales_Model_Order_Item $item */
-        foreach ($order->getItemsCollection() as $item) {
-            if (!$item->isDeleted() && !$item->getParentItemId()) {
-                $itemData = $item->getData();
-                /** @var Mage_Catalog_Model_Product $product */
-                $product = $item->getProduct();
-                $itemData['product'] = [];
-                if ($product->getId()) {
-                    $productData = [];
-                    $attributes = $product->getAttributes();
-                    /** @var Mage_Catalog_Model_Resource_Eav_Attribute $attribute */
-                    foreach ($attributes as $attribute) {
-                        $productData[$attribute->getAttributeCode()] = $this->convertToBoolean($attribute->getFrontend()->getValue($product));
-                    }
-                    $itemData['product'] = $productData;
-                }
-                $items[] = $itemData;
-            }
-        }
         $orderData = $order->getData();
+        $items = $this->getOrderItemData($order);
         if (!empty($items)) {
             $orderData['order_items'] = $items;
         }
-        $message = ['data' => json_encode($orderData), 'attributes' => ['type' => 'order']];
+        $addressData = $this->processOrderAddresses($order, $orderData);
+        foreach ($addressData as $key => $value) {
+            $orderData[$key] = $value;
+        }
+        $orderData = json_encode($orderData);
+        $message = ['data' => $orderData, 'attributes' => ['type' => 'order']];
+        $response = $topic->publish($message);
+        if (isset($response['messageIds'][0])) {
+            return true;
+        }
 
-        return $topic->publish($message);
+        return false;
+    }
+
+    /**
+     * @param Mage_Sales_Model_Order $order
+     *
+     * @throws Exception
+     */
+    public function setOrderPublished(Mage_Sales_Model_Order $order)
+    {
+        try {
+            $order->setPubsubExported(true);
+            $order->save();
+        } catch (Exception $e) {
+            return false;
+        }
+
+        return true;
     }
 
     /**
@@ -73,6 +110,80 @@ class Gracious_Pubsub_Helper_Data extends Mage_Core_Helper_Abstract
             default:
                 return $value;
         }
+    }
+
+    /**
+     * @param $product
+     *
+     * @return array
+     */
+    private function getProductAttributes($product): array
+    {
+        $productData = [];
+        if ($product->getId()) {
+            $attributes = $product->getAttributes();
+            /** @var Mage_Catalog_Model_Resource_Eav_Attribute $attribute */
+            foreach ($attributes as $attribute) {
+                $productData[$attribute->getAttributeCode()] = $this->convertToBoolean($attribute->getFrontend()->getValue($product));
+            }
+        }
+
+        return $productData;
+    }
+
+    /**
+     * @param Mage_Sales_Model_Order $order
+     *
+     * @return array
+     */
+    private function getOrderItemData(Mage_Sales_Model_Order $order): array
+    {
+        $items = [];
+        /** @var Mage_Sales_Model_Order_Item $item */
+        foreach ($order->getItemsCollection() as $item) {
+            if (!$item->isDeleted() && !$item->getParentItemId()) {
+                $itemData = $item->getData();
+                /** @var Mage_Catalog_Model_Product $product */
+                $product = $item->getProduct();
+                $productData = $this->getProductAttributes($product);
+                $itemData['product'] = $productData;
+                $items[] = $itemData;
+            }
+        }
+
+        return $items;
+    }
+
+    /**
+     * @param Mage_Sales_Model_Order $order
+     * @param $orderData
+     *
+     * @return mixed
+     */
+    private function processOrderAddresses(Mage_Sales_Model_Order $order)
+    {
+        $addressData = [];
+        $orderShippingAddress = $order->getShippingAddress();
+        $orderBillingAddress = $order->getBillingAddress();
+        $address = $orderShippingAddress->getData();
+        if (!isset($address['street']) || (isset($address['street']) && empty($address['street']))) {
+            $address = $orderBillingAddress->getData();
+        }
+        foreach ($address as $key => $value) {
+            $i = 1;
+            if ($key == 'street') {
+                $street = explode("\n", $value);
+                foreach ($street as $streetKey => $streetValue) {
+                    $addressData['shipping_street_' . $i] = trim($streetValue);
+                    $i++;
+                }
+            }
+            if ($key !== 'street') {
+                $addressData['shipping_' . $key] = $value;
+            }
+
+        }
+        return $addressData;
     }
 
 

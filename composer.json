@@ -9,6 +9,7 @@
     }
   ],
   "require": {
-    "google/cloud-pubsub": "^1.6"
+    "google/cloud-pubsub": "^1.6",
+    "google/cloud-monitoring": "^0.13.0"
   }
 }

@@ -26,55 +26,30 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </orders_topic>
+                        <start_from_days>
+                            <label>Start from X days ago</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>0</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </start_from_days>
+                        <end_from_days>
+                            <label>End at X days ago</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>0</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </end_from_days>
                         <service_account>
                             <label>Service Account JSON</label>
                             <frontend_type>textarea</frontend_type>
-                            <sort_order>20</sort_order>
+                            <sort_order>30</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </service_account>
-                        <!--<pubsub_vendor_email translate="label">-->
-                            <!--<label>Vendor Email</label>-->
-                            <!--<frontend_type>text</frontend_type>-->
-                            <!--<sort_order>10</sort_order>-->
-                            <!--<show_in_default>1</show_in_default>-->
-                            <!--<show_in_website>1</show_in_website>-->
-                            <!--<show_in_store>1</show_in_store>-->
-                        <!--</pubsub_vendor_email>-->
-                        <!--<pubsub_vendor_preview translate="label">-->
-                            <!--<label>Vendor Preview</label>-->
-                            <!--<frontend_type>textarea</frontend_type>-->
-                            <!--<sort_order>20</sort_order>-->
-                            <!--<show_in_default>1</show_in_default>-->
-                            <!--<show_in_website>1</show_in_website>-->
-                            <!--<show_in_store>1</show_in_store>-->
-                        <!--</pubsub_vendor_preview>-->
-                        <!--<pubsub_payout_method translate="label">-->
-                            <!--<label>Payout Method</label>-->
-                            <!--<frontend_type>text</frontend_type>-->
-                            <!--<sort_order>30</sort_order>-->
-                            <!--<show_in_default>1</show_in_default>-->
-                            <!--<show_in_website>1</show_in_website>-->
-                            <!--<show_in_store>1</show_in_store>-->
-                        <!--</pubsub_payout_method>-->
-                        <!--<pubsub_mass_redeem translate="label">-->
-                            <!--<label>Mass Redeem</label>-->
-                            <!--<frontend_type>select</frontend_type>-->
-                            <!--<source_model>adminhtml/system_config_source_yesno</source_model>-->
-                            <!--<sort_order>40</sort_order>-->
-                            <!--<show_in_default>1</show_in_default>-->
-                            <!--<show_in_website>1</show_in_website>-->
-                            <!--<show_in_store>1</show_in_store>-->
-                        <!--</pubsub_mass_redeem>-->
-                        <!--<pubsub_location translate="label">-->
-                            <!--<label>Location</label>-->
-                            <!--<frontend_type>text</frontend_type>-->
-                            <!--<sort_order>50</sort_order>-->
-                            <!--<show_in_default>1</show_in_default>-->
-                            <!--<show_in_website>1</show_in_website>-->
-                            <!--<show_in_store>1</show_in_store>-->
-                        <!--</pubsub_location>-->
 
                     </fields>
                 </pubsub_default>

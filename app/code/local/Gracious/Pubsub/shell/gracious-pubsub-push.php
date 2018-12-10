@@ -55,7 +55,9 @@ class Gracious_Pubsub_Shell_Test extends Mage_Shell_Abstract
         $orders = Mage::getModel('sales/order')->getCollection()->addFieldToFilter('entity_id', ['in' => $orderIds]);
         foreach($orders as $order)  {
             echo 'Publishing order ' . $order->getId() . PHP_EOL;
-            $helper->publishOrder($order, $topic);
+            if($helper->publishOrder($order, $topic))   {
+                $helper->setOrderPublished($order);
+            }
         }
     }
 
