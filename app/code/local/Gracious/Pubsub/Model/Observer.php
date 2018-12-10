@@ -23,7 +23,14 @@ class Gracious_Pubsub_Model_Observer
     public function salesOrderPlaceAfter($observer)
     {
         $order = $observer->getEvent()->getOrder();
-        $result = $this->helper->publishOrder($order, $this->topic);
+        $published = $this->helper->publishOrder($order, $this->topic);
+        if ($published) {
+            Mage::log('Published order ' . $order->getId() . ' to pubsub', null, 'pubsub.log');
+            $this->helper->setOrderPublished($order);
+        }
+        if (!$published) {
+            Mage::log('FAILED to publish order ' . $order->getId() . ' to pubsub', null, 'pubsub.log');
+        }
     }
 
 
