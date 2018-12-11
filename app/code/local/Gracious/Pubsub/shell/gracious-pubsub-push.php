@@ -52,6 +52,10 @@ class Gracious_Pubsub_Shell_Test extends Mage_Shell_Abstract
         if ($from) {
             $orders = $this->getOrdersByFromTo($from, $to);
         }
+        if(!isset($orders))  {
+            echo $this->usageHelp();
+            return;
+        }
         foreach ($orders as $order) {
             echo 'Publishing order: ' . $order->getId() . PHP_EOL;
             if ($helper->publishOrder($order, $topic)) {
@@ -76,11 +80,11 @@ USAGE;
     }
 
     /**
-     * @param $orderIds
+     * @param string $orderIds
      *
      * @return Mage_Sales_Model_Resource_Order_Collection
      */
-    private function getOrdersByOrderIds($orderIds): Mage_Sales_Model_Resource_Order_Collection
+    private function getOrdersByOrderIds(string $orderIds): Mage_Sales_Model_Resource_Order_Collection
     {
         $orderIds = strpos($orderIds, ',') !== false ? explode(',', $orderIds) : [$orderIds];
 
@@ -94,7 +98,7 @@ USAGE;
 
     /**
      * @param string $from
-     * @param string|null $to
+     * @param string $to
      *
      * @return Mage_Sales_Model_Resource_Order_Collection
      */
