@@ -198,7 +198,6 @@ class Gracious_Pubsub_Helper_Data extends Mage_Core_Helper_Abstract
 
     /**
      * @param Mage_Sales_Model_Order $order
-     * @param $orderData
      *
      * @return mixed
      */
@@ -221,7 +220,11 @@ class Gracious_Pubsub_Helper_Data extends Mage_Core_Helper_Abstract
                 }
             }
             if ($key !== 'street') {
-                $addressData['shipping_' . $key] = $value;
+                $shippingKey = 'shipping_' . $key;
+                if ($shippingKey == 'shipping_email' && empty($value)) {
+                    $value = $order->getCustomerEmail();
+                }
+                $addressData[$shippingKey] = $value;
             }
 
         }
