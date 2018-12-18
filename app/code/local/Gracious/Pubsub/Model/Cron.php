@@ -17,6 +17,9 @@ class Gracious_Pubsub_Model_Cron
 
     public function processOrders()
     {
+        if(!$this->helper->isModuleEnabled())   {
+            Mage::log('Not publishing order to pubsub, module disabled!', null, 'pubsub.log');
+        }
         $collection = $this->getCollection();
         foreach ($collection as $order) {
             $published = $this->helper->publishOrder($order, $this->topic);
