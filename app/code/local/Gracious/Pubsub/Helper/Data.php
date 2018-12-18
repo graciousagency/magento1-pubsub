@@ -7,6 +7,17 @@ class Gracious_Pubsub_Helper_Data extends Mage_Core_Helper_Abstract
 {
 
     /**
+     * Check is module exists and enabled in global config.
+     *
+     * @param string $moduleName the full module name, example Mage_Core
+     * @return boolean
+     */
+    public function isModuleEnabled($moduleName = null)
+    {
+        return (bool)Mage::getStoreConfig('pubsub/pubsub_default/is_enabled');
+    }
+
+    /**
      * @return int
      */
     public function getStartFromDays()

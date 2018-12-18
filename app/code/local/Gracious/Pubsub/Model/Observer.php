@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: pepijnblom
@@ -11,7 +12,7 @@ class Gracious_Pubsub_Model_Observer
     private $pubSub;
     /** @var Topic */
     private $topic;
-    /** @var Gracious_Pubsub_Helper_Data  */
+    /** @var Gracious_Pubsub_Helper_Data */
     private $helper;
 
     public function __construct()
@@ -22,6 +23,10 @@ class Gracious_Pubsub_Model_Observer
 
     public function salesOrderPlaceAfter($observer)
     {
+        if (!$this->helper->isModuleEnabled()) {
+            Mage::log('Not publishing order to pubsub, module disabled!', null, 'pubsub.log');
+            return;
+        }
         $order = $observer->getEvent()->getOrder();
         $published = $this->helper->publishOrder($order, $this->topic);
         if ($published) {
@@ -32,7 +37,6 @@ class Gracious_Pubsub_Model_Observer
             Mage::log('FAILED to publish order ' . $order->getId() . ' to pubsub', null, 'pubsub.log');
         }
     }
-
 
 
 }

@@ -54,6 +54,9 @@
     <default>
         <defaults>
             <orders_topic>orders</orders_topic>
+            <is_enabled>0</is_enabled>
+            <start_from_days>3</start_from_days>
+            <end_from_days>1</end_from_days>
         </defaults>
     </default>
     <crontab>
