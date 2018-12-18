@@ -40,10 +40,7 @@ class Gracious_Pubsub_Model_Cron
             ->getCollection()
             ->addFieldToFilter('pubsub_exported', 0)
             ->addFieldToFilter('state', [
-                'in' => [
-                    Mage_Sales_Model_Order::STATE_COMPLETE,
-                    Mage_Sales_Model_Order::STATE_PROCESSING,
-                ],
+                'in' => $this->helper->getOrderStatesToExport(),
             ]);
 
         return $collection;

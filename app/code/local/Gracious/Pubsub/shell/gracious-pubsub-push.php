@@ -46,16 +46,18 @@ class Gracious_Pubsub_Shell_Test extends Mage_Shell_Abstract
 
             return;
         }
+        $orders = null;
         if ($orderIds) {
             $orders = $this->getOrdersByOrderIds($orderIds);
         }
         if ($from) {
             $orders = $this->getOrdersByFromTo($from, $to);
         }
-        if(!isset($orders))  {
+        if (null === $orders) {
             echo $this->usageHelp();
             return;
         }
+        /** @var Mage_Sales_Model_Order $order */
         foreach ($orders as $order) {
             echo 'Publishing order: ' . $order->getId() . PHP_EOL;
             if ($helper->publishOrder($order, $topic)) {
@@ -75,6 +77,8 @@ Usage:  php gracious-pubsub-push.php [options]
   --order_ids <profiles> Order entity ids separated by comma or single id 
   --from YYYY-mm-dd
   --to YYYY-mm-dd 
+  
+Using order_ids in combination with from/to is not supported!
 
 USAGE;
     }
@@ -90,7 +94,7 @@ USAGE;
 
         return Mage::getModel('sales/order')
             ->getCollection()
-            ->addFieldToFilter('state', ['eq' => 'processing'])
+            ->addFieldToFilter('state', ['in' => $this->helper->getOrderStatesToExport()])
             ->addFieldToFilter('entity_id', [
                 'in' => $orderIds,
             ]);
@@ -111,10 +115,10 @@ USAGE;
 
         return Mage::getModel('sales/order')
             ->getCollection()
-            ->addFieldToFilter('state', ['eq' => 'processing'])
+            ->addFieldToFilter('state', ['in' => $this->helper->getOrderStatesToExport()])
             ->addFieldToFilter('created_at', [
                 'from' => $from,
-                'to'   => $to,
+                'to' => $to,
             ]);
     }
 

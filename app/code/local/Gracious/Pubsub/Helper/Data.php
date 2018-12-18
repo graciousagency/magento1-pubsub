@@ -18,6 +18,16 @@ class Gracious_Pubsub_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
+     * @return array
+     */
+    public function getOrderStatesToExport(): array
+    {
+        return [
+            Mage_Sales_Model_Order::STATE_PROCESSING
+        ];
+    }
+
+    /**
      * @return int
      */
     public function getStartFromDays()
@@ -109,6 +119,7 @@ class Gracious_Pubsub_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * @param Mage_Sales_Model_Order $order
      *
+     * @return bool
      * @throws Exception
      */
     public function setOrderPublished(Mage_Sales_Model_Order $order)
