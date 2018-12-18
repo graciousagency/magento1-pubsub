@@ -19,6 +19,7 @@ class Gracious_Pubsub_Model_Cron
     {
         if(!$this->helper->isModuleEnabled())   {
             Mage::log('Not publishing order to pubsub, module disabled!', null, 'pubsub.log');
+            return;
         }
         $collection = $this->getCollection();
         foreach ($collection as $order) {

@@ -1,7 +1,7 @@
 <?php
 
-use Google\Cloud\PubSub\Topic;
 use Google\Cloud\PubSub\PubSubClient;
+use Google\Cloud\PubSub\Topic;
 
 class Gracious_Pubsub_Helper_Data extends Mage_Core_Helper_Abstract
 {
