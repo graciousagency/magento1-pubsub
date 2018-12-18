@@ -28,16 +28,17 @@ require_once 'abstract.php';
  */
 class Gracious_Pubsub_Shell_Test extends Mage_Shell_Abstract
 {
+    /** @var Gracious_Pubsub_Helper_Data */
+    private $helper;
 
     /**
      * Run script
      */
     public function run()
     {
-        /** @var Gracious_Pubsub_Helper_Data $helper */
-        $helper = Mage::helper('pubsub');
+        $this->helper = Mage::helper('pubsub');
         /** @var \Google\Cloud\PubSub\Topic $topic */
-        $topic = $helper->getTopic();
+        $topic = $this->helper->getTopic();
         $orderIds = $this->getArg('order_ids');
         $from = (string)$this->getArg('from');
         $to = (string)$this->getArg('to');
@@ -60,8 +61,8 @@ class Gracious_Pubsub_Shell_Test extends Mage_Shell_Abstract
         /** @var Mage_Sales_Model_Order $order */
         foreach ($orders as $order) {
             echo 'Publishing order: ' . $order->getId() . PHP_EOL;
-            if ($helper->publishOrder($order, $topic)) {
-                $helper->setOrderPublished($order);
+            if ($this->helper->publishOrder($order, $topic)) {
+                $this->helper->setOrderPublished($order);
             }
         }
     }
