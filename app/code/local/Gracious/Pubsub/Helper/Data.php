@@ -1,7 +1,6 @@
 <?php
-
-use Google\Cloud\PubSub\PubSubClient;
 use Google\Cloud\PubSub\Topic;
+use Google\Cloud\PubSub\PubSubClient;
 
 class Gracious_Pubsub_Helper_Data extends Mage_Core_Helper_Abstract
 {
@@ -28,9 +27,58 @@ class Gracious_Pubsub_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
+     * @param int $days
+     * @return DateTime
+     * @throws Exception
+     */
+    public function convertSubDaysToDate(int $days): \DateTime
+    {
+        $datetime = new \DateTime('now', $this->getTimezone());
+        return $datetime->sub($this->getInterval($days));
+    }
+
+    /**
+     * @param int $days
+     *
+     * @return DateInterval
+     * @throws Exception
+     */
+    public function getInterval(int $days): DateInterval
+    {
+        return new \DateInterval('P' . $days . 'D');
+    }
+
+    /**
+     * @return DateTimeZone
+     */
+    public function getTimezone(): \DateTimeZone
+    {
+        return new \DateTimeZone(Mage::getStoreConfig('general/locale/timezone'));
+    }
+
+    /**
+     * @return DateTime
+     * @throws Exception
+     */
+    public function getStartFromDate(): \DateTime
+    {
+        return $this->convertSubDaysToDate($this->getStartFromDays());
+    }
+
+    /**
+     * @return DateTime
+     * @throws Exception
+     */
+    public function getEndFromDate(): \DateTime
+    {
+        return $this->convertSubDaysToDate($this->getEndFromDays());
+    }
+
+
+    /**
      * @return int
      */
-    public function getStartFromDays()
+    public function getStartFromDays(): int
     {
         $days = Mage::getStoreConfig('pubsub/pubsub_default/start_from_days');
         if (empty($days)) {
@@ -43,7 +91,7 @@ class Gracious_Pubsub_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * @return int
      */
-    public function getEndFromDays()
+    public function getEndFromDays(): int
     {
         $days = Mage::getStoreConfig('pubsub/pubsub_default/end_from_days');
         if (empty($days)) {
@@ -106,7 +154,7 @@ class Gracious_Pubsub_Helper_Data extends Mage_Core_Helper_Abstract
         foreach ($addressData as $key => $value) {
             $orderData[$key] = $value;
         }
-        $orderData = json_encode($orderData);
+        $orderData = \json_encode($orderData);
         $message = ['data' => $orderData, 'attributes' => ['type' => 'order']];
         $response = $topic->publish($message);
         if (isset($response['messageIds'][0])) {
