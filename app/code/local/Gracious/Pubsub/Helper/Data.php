@@ -1,4 +1,5 @@
 <?php
+
 use Google\Cloud\PubSub\Topic;
 use Google\Cloud\PubSub\PubSubClient;
 
@@ -21,9 +22,8 @@ class Gracious_Pubsub_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getOrderStatesToExport(): array
     {
-        return [
-            Mage_Sales_Model_Order::STATE_PROCESSING
-        ];
+        $config = Mage::getStoreConfig('pubsub/pubsub_default/is_enabled');
+        return strpos($config, ',') !== false ? explode(',', $config) : [$config];
     }
 
     /**
