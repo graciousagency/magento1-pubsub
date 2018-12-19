@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Gracious_Pubsub>
-            <version>1.1.0</version>
+            <version>1.1.2</version>
         </Gracious_Pubsub>
     </modules>
     <global>
@@ -57,6 +57,7 @@
             <is_enabled>0</is_enabled>
             <start_from_days>3</start_from_days>
             <end_from_days>1</end_from_days>
+            <order_state>complete,processing</order_state>
         </defaults>
     </default>
     <crontab>
