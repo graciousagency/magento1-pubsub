@@ -12,14 +12,14 @@
             </pubsub>
         </helpers>
         <events>
-            <sales_order_place_after>
+            <sales_order_invoice_pay>
                 <observers>
                     <gracious_pubsub_observers>
                         <class>Gracious_Pubsub_Model_Observer</class>
-                        <method>salesOrderPlaceAfter</method>
+                        <method>salesOrderInvoicePay</method>
                     </gracious_pubsub_observers>
                 </observers>
-            </sales_order_place_after>
+            </sales_order_invoice_pay>
         </events>
         <models>
             <pubsub>

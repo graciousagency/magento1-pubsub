@@ -21,7 +21,7 @@ class Gracious_Pubsub_Model_Observer
         $this->topic = $this->helper->getTopic();
     }
 
-    public function salesOrderPlaceAfter($observer)
+    public function salesOrderInvoicePay($observer)
     {
         if (!$this->helper->isModuleEnabled()) {
             Mage::log('Not publishing order to pubsub, module disabled!', null, 'pubsub.log');
