@@ -156,7 +156,8 @@ class Gracious_Pubsub_Helper_Data extends Mage_Core_Helper_Abstract
         }
         $orderData = \json_encode($orderData);
         if ($dump) {
-            Zend_Debug::dump($orderData);
+            Mage::log('Dumping order ' . $order->getId(), null, 'pubsub.log');
+            Mage::log(print_r($orderData, true), null, 'pubsub.log');
         }
         if (!$dump) {
             $message = ['data' => $orderData, 'attributes' => ['type' => 'order']];
