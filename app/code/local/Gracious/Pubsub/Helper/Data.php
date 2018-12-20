@@ -122,7 +122,7 @@ class Gracious_Pubsub_Helper_Data extends Mage_Core_Helper_Abstract
      *
      * @return bool
      */
-    public function publishOrder(Mage_Sales_Model_Order $order, Topic $topic): bool
+    public function publishOrder(Mage_Sales_Model_Order $order, Topic $topic, bool $dump = false): bool
     {
         Mage::log('Publishing order ' . $order->getId(), null, 'pubsub.log');
         $items = [];
@@ -155,12 +155,16 @@ class Gracious_Pubsub_Helper_Data extends Mage_Core_Helper_Abstract
             $orderData[$key] = $value;
         }
         $orderData = \json_encode($orderData);
-        $message = ['data' => $orderData, 'attributes' => ['type' => 'order']];
-        $response = $topic->publish($message);
-        if (isset($response['messageIds'][0])) {
-            return true;
+        if ($dump) {
+            Zend_Debug::dump($orderData);
         }
-
+        if (!$dump) {
+            $message = ['data' => $orderData, 'attributes' => ['type' => 'order']];
+            $response = $topic->publish($message);
+            if (isset($response['messageIds'][0])) {
+                return true;
+            }
+        }
         return false;
     }
 

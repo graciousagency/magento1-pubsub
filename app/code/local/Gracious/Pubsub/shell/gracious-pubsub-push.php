@@ -42,6 +42,7 @@ class Gracious_Pubsub_Shell_Test extends Mage_Shell_Abstract
         $orderIds = $this->getArg('order_ids');
         $from = (string)$this->getArg('from');
         $to = (string)$this->getArg('to');
+        $dump = 'true' === $this->getArg('dump') ? true : false;
         if ($this->getArg('help') || (!$orderIds && !$from)) {
             echo $this->usageHelp();
 
@@ -61,7 +62,7 @@ class Gracious_Pubsub_Shell_Test extends Mage_Shell_Abstract
         /** @var Mage_Sales_Model_Order $order */
         foreach ($orders as $order) {
             echo 'Publishing order: ' . $order->getId() . PHP_EOL;
-            if ($this->helper->publishOrder($order, $topic)) {
+            if ($this->helper->publishOrder($order, $topic, $dump)) {
                 $this->helper->setOrderPublished($order);
             }
         }
