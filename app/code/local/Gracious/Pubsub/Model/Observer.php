@@ -27,7 +27,7 @@ class Gracious_Pubsub_Model_Observer
             Mage::log('Not publishing order to pubsub, module disabled!', null, 'pubsub.log');
             return;
         }
-        $order = $observer->getEvent()->getOrder();
+        $order = $observer->getEvent()->getInvoice()->getOrder();
         $published = $this->helper->publishOrder($order, $this->topic);
         if ($published) {
             Mage::log('Published order ' . $order->getId() . ' to pubsub', null, 'pubsub.log');
