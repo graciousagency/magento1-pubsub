@@ -53,8 +53,8 @@ class Gracious_Pubsub_Model_Cron
                 'from' => $this->fromDate->format('Y-m-d H:i:s'),
                 'to' => $this->toDate->format('Y-m-d H:i:s')
             ])
-            ->addFieldToFilter('state', [
-                'in' => $this->helper->getOrderStatesToExport(),
+            ->addFieldToFilter('status', [
+                'in' => $this->helper->getOrderStatusesToExport(),
             ]);
 
         return $collection;

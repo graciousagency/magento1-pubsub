@@ -96,7 +96,7 @@ USAGE;
 
         return Mage::getModel('sales/order')
             ->getCollection()
-            ->addFieldToFilter('state', ['in' => $this->helper->getOrderStatesToExport()])
+            ->addFieldToFilter('status', ['in' => $this->helper->getOrderStatusesToExport()])
             ->addFieldToFilter('entity_id', [
                 'in' => $orderIds,
             ]);
@@ -117,7 +117,7 @@ USAGE;
 
         return Mage::getModel('sales/order')
             ->getCollection()
-            ->addFieldToFilter('state', ['in' => $this->helper->getOrderStatesToExport()])
+            ->addFieldToFilter('status', ['in' => $this->helper->getOrderStatusesToExport()])
             ->addFieldToFilter('created_at', [
                 'from' => $from,
                 'to' => $to,

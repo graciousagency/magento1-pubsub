@@ -20,9 +20,9 @@ class Gracious_Pubsub_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * @return array
      */
-    public function getOrderStatesToExport(): array
+    public function getOrderStatusesToExport(): array
     {
-        $config = Mage::getStoreConfig('pubsub/pubsub_default/order_state');
+        $config = Mage::getStoreConfig('pubsub/pubsub_default/order_statuses');
         return strpos($config, ',') !== false ? explode(',', $config) : [$config];
     }
 
