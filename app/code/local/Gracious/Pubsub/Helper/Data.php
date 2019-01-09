@@ -128,22 +128,25 @@ class Gracious_Pubsub_Helper_Data extends Mage_Core_Helper_Abstract
         $items = [];
         /** @var Mage_Sales_Model_Order_Item $item */
         foreach ($order->getItemsCollection() as $item) {
-            if (!$item->isDeleted() && !$item->getParentItemId()) {
-                $itemData = $item->getData();
-                /** @var Mage_Catalog_Model_Product $product */
-                $product = $item->getProduct();
-                $itemData['product'] = [];
-                if ($product->getId()) {
-                    $productData = [];
-                    $attributes = $product->getAttributes();
-                    /** @var Mage_Catalog_Model_Resource_Eav_Attribute $attribute */
-                    foreach ($attributes as $attribute) {
-                        $productData[$attribute->getAttributeCode()] = $this->convertToBoolean($attribute->getFrontend()->getValue($product));
-                    }
-                    $itemData['product'] = $productData;
-                }
-                $items[] = $itemData;
+
+            if ($item->getProductType() == Mage_Catalog_Model_Product_Type::TYPE_CONFIGURABLE) {
+                continue;
             }
+
+            $itemData = $item->getData();
+            /** @var Mage_Catalog_Model_Product $product */
+            $product = $item->getProduct();
+            $itemData['product'] = [];
+            if ($product->getId()) {
+                $productData = [];
+                $attributes = $product->getAttributes();
+                /** @var Mage_Catalog_Model_Resource_Eav_Attribute $attribute */
+                foreach ($attributes as $attribute) {
+                    $productData[$attribute->getAttributeCode()] = $this->convertToBoolean($attribute->getFrontend()->getValue($product));
+                }
+                $itemData['product'] = $productData;
+            }
+            $items[] = $itemData;
         }
         $orderData = $order->getData();
         $items = $this->getOrderItemData($order);
