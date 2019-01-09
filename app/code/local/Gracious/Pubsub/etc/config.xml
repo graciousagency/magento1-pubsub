@@ -20,6 +20,22 @@
                     </gracious_pubsub_observers>
                 </observers>
             </sales_order_invoice_pay>
+            <order_cancel_after>
+                <observers>
+                    <gracious_pubsub_observers>
+                        <class>Gracious_Pubsub_Model_Observer</class>
+                        <method>orderCancelAfter</method>
+                    </gracious_pubsub_observers>
+                </observers>
+            </order_cancel_after>
+            <sales_order_creditmemo_refund>
+                <observers>
+                    <gracious_pubsub_observers>
+                        <class>Gracious_Pubsub_Model_Observer</class>
+                        <method>salesOrderCreditmemoRefund</method>
+                    </gracious_pubsub_observers>
+                </observers>
+            </sales_order_creditmemo_refund>
         </events>
         <models>
             <pubsub>
