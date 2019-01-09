@@ -64,7 +64,7 @@ class Gracious_Pubsub_Model_Observer
         // Cloning the order, don't want to mutate the system's Order object.
         $order = clone $observer->getEvent()->getCreditmemo()->getOrder();
         $data = $order->getData();
-        $data["status"] = "closed";
+        $data['status'] = 'closed';
         $order->setData($data);
         $this->publish($order);
     }
