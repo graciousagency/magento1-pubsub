@@ -1,5 +1,6 @@
 {
   "name": "gracious/magento1-pubsub",
+  "license": "MIT",
   "description": "Pushes customers, orders, newsletter subscribers to google pub/sub",
   "type": "magento-module",
   "authors": [
@@ -9,7 +10,11 @@
     }
   ],
   "require": {
+    "ext-json": "*",
     "google/cloud-pubsub": "^1.6",
     "google/cloud-monitoring": "^0.13.0"
+  },
+  "require-dev": {
+    "roave/security-advisories": "dev-master"
   }
 }
