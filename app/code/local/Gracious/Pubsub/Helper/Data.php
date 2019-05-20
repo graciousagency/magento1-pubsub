@@ -240,7 +240,10 @@ class Gracious_Pubsub_Helper_Data extends Mage_Core_Helper_Abstract
         $addressData = [];
         $orderShippingAddress = $order->getShippingAddress();
         $orderBillingAddress = $order->getBillingAddress();
-        $address = $orderShippingAddress->getData();
+        $address = [];
+        if ($orderShippingAddress) {
+            $address = $orderShippingAddress->getData();
+        }
         if (!isset($address['street']) || (isset($address['street']) && empty($address['street']))) {
             $address = $orderBillingAddress->getData();
         }
