@@ -182,12 +182,21 @@ class Gracious_Pubsub_Helper_Data extends Mage_Core_Helper_Abstract
     {
         try {
             $order->setPubsubExported(true);
+            $this->createOrderComment($order);
             $order->save();
         } catch (Exception $e) {
             return false;
         }
 
         return true;
+    }
+
+    /**
+     * @param Mage_Sales_Model_Order $order
+     */
+    public function createOrderComment(Mage_Sales_Model_Order $order)
+    {
+        $order->addStatusHistoryComment('Order is verzonden naar PubSub.');
     }
 
     /**
