@@ -159,6 +159,7 @@ class Gracious_Pubsub_Helper_Data extends Mage_Core_Helper_Abstract
     {
         try {
             $order->setPubsubExported(true);
+            $order->addStatusHistoryComment('Order has been sent to PubSub.');
             $order->save();
         } catch (Exception $e) {
             return false;
